@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    container_name: "coworking-reservas"
+    environment:
+      POSTGRES_DB: "coworking"
+      POSTGRES_USER: "usuario"
+      POSTGRES_PASSWORD : "secret"
+
+    volumes:
+      - "./sql:/docker-entrypoint-initdb.d"
+    ports:
+      - "5432:5432"
