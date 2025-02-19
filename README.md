@@ -13,3 +13,5 @@ Este sistema permite a los usuarios de un espacio de coworking reservar salas de
 📅 Creación y cancelación de reservas.
 
 ✉️ Notificaciones automáticas por correo electrónico a los participantes.
+
+![image](https://github.com/user-attachments/assets/a42b2904-5798-417d-b4af-c10714e1939c)
