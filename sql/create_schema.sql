@@ -2,8 +2,8 @@
 CREATE TABLE Usuarios (
                           id_usuario SERIAL PRIMARY KEY,
                           nombre VARCHAR(100) NOT NULL,
-                          correo VARCHAR(100) UNIQUE NOT NULL,
-                          contraseña VARCHAR(255) NOT NULL, -- Almacenar contraseñas cifradas
+                          email VARCHAR(100) UNIQUE NOT NULL,
+                          password VARCHAR(255) NOT NULL, -- Almacenar contraseñas cifradas
                           fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
