@@ -2,7 +2,6 @@ package com.grupo3.coworkingreservas.service.impl;
 
 import com.grupo3.coworkingreservas.domain.entities.Sala;
 import com.grupo3.coworkingreservas.domain.dto.SalaDTO;
-import com.grupo3.coworkingreservas.exception.SalaNotFoundException;
 import com.grupo3.coworkingreservas.repository.SalaRepository;
 import com.grupo3.coworkingreservas.service.SalaService;
 import org.modelmapper.ModelMapper;
