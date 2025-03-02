@@ -8,6 +8,8 @@ import lombok.Data;
 
 @Data
 public class SalaDTO {
+
+
     private Long id;
 
     @NotBlank(message = "Nombre Obligatorio")
@@ -17,5 +19,6 @@ public class SalaDTO {
     private Integer capacidad;
 
     private String descripcion;
+
     private EstadoSala estadoSala;
 }

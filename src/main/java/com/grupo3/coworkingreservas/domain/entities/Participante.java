@@ -10,13 +10,15 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "participantes")
 public class Participante {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_participante")
     private Long id;
 
 
     @ManyToOne
-    @JoinColumn(name = "sala_id", nullable = false)
+    @JoinColumn(name = "id_sala", nullable = false)
     private Sala sala;
 
 

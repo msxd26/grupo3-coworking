@@ -16,12 +16,15 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "reservas")
 public class Reserva {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_reserva")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_sala", nullable = false)
+    @JoinColumn(name = "id_sala")
     private Sala sala;
 
     @NotNull(message = "La fecha de inicio es obligatoria")
@@ -29,9 +32,6 @@ public class Reserva {
 
     @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDateTime fechaFin;
-
-    @Email(message = "El correo electrónico debe ser válido")
-    private String userEmail;
 
     @Enumerated(EnumType.STRING)
     private EstadoReserva estado = EstadoReserva.PENDIENTE;

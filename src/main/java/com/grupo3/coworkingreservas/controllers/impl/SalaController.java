@@ -32,7 +32,7 @@ public class SalaController implements SalaApi {
     @Override
     public ResponseEntity<SalaDTO> obtenerSalaPorId(Long id) {
         return salaService.obtenerSalaPorId(id)
-                .map(salaDTO -> ResponseEntity.ok(salaDTO))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
