@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +16,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import java.util.List;
 
 @Entity
@@ -19,16 +24,18 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "Usuarios")
 public class Usuario  {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Long id;
 
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 
+    @Email(message = "El correo electrónico debe ser válido")
     private String email;
 
+    @NotBlank(message = "La contraseña es obligatoria")
     private String password;
 
     private LocalDateTime fechaRegistro;
@@ -55,7 +62,7 @@ public class Usuario  {
     public void prePersist() {
         this.fechaRegistro = LocalDateTime.now();
     }
+}
 
+ }
 
-
-  }

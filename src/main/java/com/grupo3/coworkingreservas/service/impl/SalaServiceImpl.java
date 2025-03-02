@@ -2,6 +2,9 @@ package com.grupo3.coworkingreservas.service.impl;
 
 import com.grupo3.coworkingreservas.domain.entities.Sala;
 import com.grupo3.coworkingreservas.domain.dto.SalaDTO;
+import com.grupo3.coworkingreservas.repository.SalaRepository;
+import com.grupo3.coworkingreservas.service.SalaService;
+
 import com.grupo3.coworkingreservas.exception.SalaNotFoundException;
 import com.grupo3.coworkingreservas.repository.SalaRepository;
 import com.grupo3.coworkingreservas.service.SalaService;
@@ -20,6 +23,16 @@ public class SalaServiceImpl implements SalaService {
     private final SalaRepository salaRepository;
     private final ModelMapper modelMapper;
 
+    public SalaServiceImpl(SalaRepository salaRepository, ModelMapper modelMapper) {
+        this.salaRepository = salaRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public SalaDTO crearSala(SalaDTO salaDTO) {
+        Sala sala = modelMapper.map(salaDTO, Sala.class);
+        Sala salaGuardada = salaRepository.save(sala);
+        return modelMapper.map(salaGuardada, SalaDTO.class);
 
     @Override
     public SalaDTO crearSala(SalaDTO salaDTO) {

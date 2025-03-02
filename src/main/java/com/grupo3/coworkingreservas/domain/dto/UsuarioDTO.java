@@ -1,5 +1,9 @@
 package com.grupo3.coworkingreservas.domain.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -21,6 +25,10 @@ public class UsuarioDTO {
     @NotBlank(message = "Nombre Obligatorio")
     private String nombre;
 
+    @Email(message = "Correo Obligatorio")
+    private String email;
+
+    private LocalDateTime fechaRegistro;
     @Email(message = "El correo electrónico debe ser válido")
     private String email;
 
