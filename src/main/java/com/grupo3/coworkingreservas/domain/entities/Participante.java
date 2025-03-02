@@ -2,29 +2,23 @@ package com.grupo3.coworkingreservas.domain.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "participantes")
 public class Participante {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @ManyToOne
-    @JoinColumn(name = "id_reserva")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_reserva", nullable = false)
     private Reserva reserva;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 }

@@ -3,40 +3,40 @@ package com.grupo3.coworkingreservas.domain.entities;
 
 import com.grupo3.coworkingreservas.utils.enums.EstadoSala;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
-
 @Entity
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "salas")
 public class Sala {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 
+    @Min(value = 1, message = "La capacidad debe ser al menos 1")
     private Integer capacidad;
 
     private String descripcion;
 
-    private EstadoSala estado;
+    @Enumerated(EnumType.STRING)
+    private EstadoSala estado = EstadoSala.DISPONIBLE;
 
-    @OneToMany(
-            cascade = CascadeType.ALL, fetch = FetchType.EAGER,
-            mappedBy = "sala"
-    )
-    private List<Reserva> reservas;
+    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Reserva> reservas = new ArrayList<>();
 
-
-    public Sala() {
-        this.estado= EstadoSala.DISPONIBLE;
+    @PrePersist
+    public void prePersist() {
+        if (this.estado == null) {
+            this.estado = EstadoSala.DISPONIBLE;
+        }
     }
 }

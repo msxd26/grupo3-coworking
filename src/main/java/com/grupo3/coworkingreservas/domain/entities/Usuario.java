@@ -2,25 +2,27 @@ package com.grupo3.coworkingreservas.domain.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "usuarios")
-public class Usuario {
+@Table(name = "Usuarios")
+public class Usuario  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Long id;
 
     private String nombre;
@@ -31,13 +33,29 @@ public class Usuario {
 
     private LocalDateTime fechaRegistro;
 
-    @OneToMany(
-            cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario"
-    )
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reserva> reservas;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns =@JoinColumn(name = "rol_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario_id" , "rol_id"})})
+    private List<Role> roles;
+
+    @Transient
+    private boolean admin;
+
+
+
+    public Usuario(){
+        this.reservas = new ArrayList<>();
+    }
 
     @PrePersist
     public void prePersist() {
-        fechaRegistro = LocalDateTime.now();
+        this.fechaRegistro = LocalDateTime.now();
     }
-}
+
+
+
+  }
