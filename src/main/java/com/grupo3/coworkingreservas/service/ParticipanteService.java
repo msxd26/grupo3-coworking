@@ -11,4 +11,8 @@ public interface ParticipanteService {
     List<ParticipanteDTO> obtenerTodosLosParticipantes();
     Optional<ParticipanteDTO> actualizarParticipante(Long id, ParticipanteDTO participanteDTO);
     void eliminarParticipante(Long id);
+    ParticipanteDTO agregarParticipanteASala(Long salaId, ParticipanteDTO pqrticipanteDTO);
+    ParticipanteDTO agregarParticipanteAReserva(Long reservaId, ParticipanteDTO participanteDTO);
+    void eliminarParticipanteDeSala(Long salaId, Long participanteId);
+    void eliminarParticipanteDeReserva(Long reservaId, Long participanteId);
 }

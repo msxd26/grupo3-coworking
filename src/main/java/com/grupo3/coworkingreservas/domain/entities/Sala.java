@@ -32,6 +32,9 @@ public class Sala {
     @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reserva> reservas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "sala")
+    private List<Participante> participantes = new ArrayList<>();
+
     @PrePersist
     public void prePersist() {
         if (this.estado == null) {

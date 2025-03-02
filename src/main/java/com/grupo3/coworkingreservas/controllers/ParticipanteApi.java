@@ -23,4 +23,16 @@ public interface ParticipanteApi {
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> eliminarParticipante(@PathVariable Long id);
+
+    @PostMapping("/salas/{salaId}")
+    ResponseEntity<ParticipanteDTO> agregarParticipanteASala(@PathVariable Long salaId, @RequestBody ParticipanteDTO participanteDTO);
+
+    @PostMapping("/reservas/{reservaId}")
+    ResponseEntity<ParticipanteDTO> agregarParticipanteAReserva(@PathVariable Long reservaId, @RequestBody ParticipanteDTO participanteDTO);
+
+    @DeleteMapping("/salas/{salaId}/participantes/{participanteId}")
+    ResponseEntity<Void> eliminarParticipanteDeSala(@PathVariable Long salaId, @PathVariable Long participanteId);
+
+    @DeleteMapping("/reservas/{reservaId}/participantes/{participanteId}")
+    ResponseEntity<Void> eliminarParticipanteDeReserva(@PathVariable Long reservaId, @PathVariable Long participanteId);
 }

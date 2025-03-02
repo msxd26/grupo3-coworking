@@ -7,6 +7,8 @@ import lombok.Data;
 public class ParticipanteDTO {
     private Long id;
 
+    private Long salaId;
+
     @NotNull(message = "Id de Reserva Obligatorio")
     private Long reservaId;
 

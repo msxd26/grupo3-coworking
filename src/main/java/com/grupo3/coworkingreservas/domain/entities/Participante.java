@@ -14,6 +14,11 @@ public class Participante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @ManyToOne
+    @JoinColumn(name = "sala_id", nullable = false)
+    private Sala sala;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_reserva", nullable = false)
     private Reserva reserva;
