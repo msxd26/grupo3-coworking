@@ -3,19 +3,19 @@ package com.grupo3.coworkingreservas.controllers.impl;
 import com.grupo3.coworkingreservas.domain.dto.SalaDTO;
 import com.grupo3.coworkingreservas.controllers.SalaApi;
 import com.grupo3.coworkingreservas.service.SalaService;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class SalaController implements SalaApi {
 
     private final SalaService salaService;
-
-    public SalaController(SalaService salaService) {
-        this.salaService = salaService;
-    }
 
     @Override
     public ResponseEntity<SalaDTO> crearSala(SalaDTO salaDTO) {

@@ -11,3 +11,17 @@ public interface UsuarioService {
     Optional<UsuarioDTO> actualizarUsuario(Long id, UsuarioDTO usuarioDTO);
     void eliminarUsuario(Long id); // Método void, no devuelve nada
 }
+
+
+import java.util.Optional;
+
+public interface UsuarioService {
+
+    UsuarioDTO save(UsuarioDTO usuario);
+
+    UsuarioDTO findById(Long id);
+
+    Boolean existsByEmail(String email);
+
+}
+

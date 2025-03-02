@@ -9,9 +9,11 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "reservas")
 public class Reserva {
     @Id

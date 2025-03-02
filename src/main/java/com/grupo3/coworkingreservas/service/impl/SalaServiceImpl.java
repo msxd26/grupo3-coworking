@@ -4,6 +4,11 @@ import com.grupo3.coworkingreservas.domain.entities.Sala;
 import com.grupo3.coworkingreservas.domain.dto.SalaDTO;
 import com.grupo3.coworkingreservas.repository.SalaRepository;
 import com.grupo3.coworkingreservas.service.SalaService;
+
+import com.grupo3.coworkingreservas.exception.SalaNotFoundException;
+import com.grupo3.coworkingreservas.repository.SalaRepository;
+import com.grupo3.coworkingreservas.service.SalaService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class SalaServiceImpl implements SalaService {
 
     private final SalaRepository salaRepository;
@@ -27,6 +33,16 @@ public class SalaServiceImpl implements SalaService {
         Sala sala = modelMapper.map(salaDTO, Sala.class);
         Sala salaGuardada = salaRepository.save(sala);
         return modelMapper.map(salaGuardada, SalaDTO.class);
+
+    @Override
+    public SalaDTO crearSala(SalaDTO salaDTO) {
+
+        var salaSaved= salaRepository.save(convertToEntity(salaDTO));
+        return convertToDTO(salaSaved);
+
+//        Sala sala = modelMapper.map(salaDTO, Sala.class);
+//        Sala salaGuardada = salaRepository.save(sala);
+//        return modelMapper.map(salaGuardada, SalaDTO.class);
     }
 
     @Override
@@ -60,5 +76,13 @@ public class SalaServiceImpl implements SalaService {
                     salaRepository.delete(sala);
                     return null; // Indica que la eliminación fue exitosa
                 });
+    }
+
+    private SalaDTO convertToDTO(Sala sala) {
+        return modelMapper.map(sala, SalaDTO.class);
+    }
+
+    private Sala convertToEntity(SalaDTO salaDTO) {
+        return modelMapper.map(salaDTO, Sala.class);
     }
 }

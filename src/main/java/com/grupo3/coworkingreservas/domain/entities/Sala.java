@@ -9,9 +9,11 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "salas")
 public class Sala {
     @Id
@@ -29,11 +31,16 @@ public class Sala {
     @Enumerated(EnumType.STRING)
     private EstadoSala estado = EstadoSala.DISPONIBLE;
 
+
     @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reserva> reservas = new ArrayList<>();
 
     @OneToMany(mappedBy = "sala")
     private List<Participante> participantes = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Reserva> reservas = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

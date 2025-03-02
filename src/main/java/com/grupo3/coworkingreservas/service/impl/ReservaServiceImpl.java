@@ -16,6 +16,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+
+import com.grupo3.coworkingreservas.repository.ReservaRepository;
+import com.grupo3.coworkingreservas.repository.SalaRepository;
+import com.grupo3.coworkingreservas.service.ReservaService;
+
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
 public class ReservaServiceImpl implements ReservaService {
 
     private final ReservaRepository reservaRepository;
@@ -32,6 +47,12 @@ public class ReservaServiceImpl implements ReservaService {
     public ReservaDTO crearReserva(ReservaDTO reservaDTO) {
         Sala sala = salaRepository.findById(reservaDTO.getSalaId())
                 .orElseThrow(() -> new SalaNotFoundException(reservaDTO.getSalaId()));
+
+    @Override
+    @Transactional
+    public ReservaDTO crearReserva(ReservaDTO reservaDTO) {
+        Sala sala = salaRepository.findById(reservaDTO.getSalaId())
+                .orElseThrow(() -> new RuntimeException("Sala no encontrada"));
         Reserva reserva = modelMapper.map(reservaDTO, Reserva.class);
         reserva.setSala(sala);
         Reserva reservaGuardada = reservaRepository.save(reserva);
@@ -46,6 +67,15 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public ReservaDTO obtenerReservaPorId(Long id) {
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+        return modelMapper.map(reserva, ReservaDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<ReservaDTO> obtenerTodasLasReservas() {
         List<Reserva> reservas = reservaRepository.findAll();
         return reservas.stream()
@@ -53,8 +83,9 @@ public class ReservaServiceImpl implements ReservaService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Optional<ReservaDTO> actualizarReserva(Long id, ReservaDTO reservaDTO) {
+    @Override     
+    @Transactional
+    public ReservaDTO actualizarReserva(Long id, ReservaDTO reservaDTO) {
         Reserva reserva = reservaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
         Sala sala = salaRepository.findById(reservaDTO.getSalaId())
@@ -68,5 +99,14 @@ public class ReservaServiceImpl implements ReservaService {
     @Override
     public void eliminarReserva(Long id) {
         reservaRepository.findById(id).ifPresent(reserva -> reservaRepository.delete(reserva));
+        return modelMapper.map(reservaActualizada, ReservaDTO.class);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarReserva(Long id) {
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+        reservaRepository.delete(reserva);
     }
 }
