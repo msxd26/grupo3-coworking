@@ -29,14 +29,10 @@ public class UsuarioDTO {
     private String email;
 
     private LocalDateTime fechaRegistro;
-    @Email(message = "El correo electrónico debe ser válido")
-    private String email;
 
     @NotBlank(message = "La contraseña es obligatoria")
-    private String password;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private LocalDateTime fechaNacimiento;
+    private String password;
 
     private boolean isAdmin;
 

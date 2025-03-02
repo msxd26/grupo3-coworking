@@ -12,12 +12,13 @@ import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "salas")
 public class Sala {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_sala")
     private Long id;
 
     @NotBlank(message = "El nombre es obligatorio")
@@ -29,7 +30,7 @@ public class Sala {
     private String descripcion;
 
     @Enumerated(EnumType.STRING)
-    private EstadoSala estado = EstadoSala.DISPONIBLE;
+    private EstadoSala estado = EstadoSala.disponible;
 
 
     @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -39,13 +40,15 @@ public class Sala {
     private List<Participante> participantes = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Reserva> reservas = new ArrayList<>();
+    public Sala() {
+        this.reservas= new ArrayList<>();
+        this.participantes= new ArrayList<>();
+    }
 
     @PrePersist
     public void prePersist() {
         if (this.estado == null) {
-            this.estado = EstadoSala.DISPONIBLE;
+            this.estado = EstadoSala.disponible;
         }
     }
 }

@@ -10,13 +10,5 @@ public interface ReservaService {
     Optional<ReservaDTO> obtenerReservaPorId(Long id);
     List<ReservaDTO> obtenerTodasLasReservas();
     Optional<ReservaDTO> actualizarReserva(Long id, ReservaDTO reservaDTO);
-
-
-public interface ReservaService {
-
-    ReservaDTO crearReserva(ReservaDTO reservaDTO);
-    ReservaDTO obtenerReservaPorId(Long id);
-    List<ReservaDTO> obtenerTodasLasReservas();
-    ReservaDTO actualizarReserva(Long id, ReservaDTO reservaDTO);
     void eliminarReserva(Long id);
 }

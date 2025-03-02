@@ -5,12 +5,10 @@ import com.grupo3.coworkingreservas.domain.dto.SalaDTO;
 import com.grupo3.coworkingreservas.repository.SalaRepository;
 import com.grupo3.coworkingreservas.service.SalaService;
 
-import com.grupo3.coworkingreservas.exception.SalaNotFoundException;
-import com.grupo3.coworkingreservas.repository.SalaRepository;
-import com.grupo3.coworkingreservas.service.SalaService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,43 +21,33 @@ public class SalaServiceImpl implements SalaService {
     private final SalaRepository salaRepository;
     private final ModelMapper modelMapper;
 
-    public SalaServiceImpl(SalaRepository salaRepository, ModelMapper modelMapper) {
-        this.salaRepository = salaRepository;
-        this.modelMapper = modelMapper;
-    }
-
     @Override
+    @Transactional
     public SalaDTO crearSala(SalaDTO salaDTO) {
         Sala sala = modelMapper.map(salaDTO, Sala.class);
         Sala salaGuardada = salaRepository.save(sala);
         return modelMapper.map(salaGuardada, SalaDTO.class);
-
-    @Override
-    public SalaDTO crearSala(SalaDTO salaDTO) {
-
-        var salaSaved= salaRepository.save(convertToEntity(salaDTO));
-        return convertToDTO(salaSaved);
-
-//        Sala sala = modelMapper.map(salaDTO, Sala.class);
-//        Sala salaGuardada = salaRepository.save(sala);
-//        return modelMapper.map(salaGuardada, SalaDTO.class);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<SalaDTO> obtenerSalaPorId(Long id) {
         return salaRepository.findById(id)
                 .map(sala -> modelMapper.map(sala, SalaDTO.class));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SalaDTO> obtenerTodasLasSalas() {
         List<Sala> salas = salaRepository.findAll();
         return salas.stream()
                 .map(sala -> modelMapper.map(sala, SalaDTO.class))
                 .collect(Collectors.toList());
+
     }
 
     @Override
+    @Transactional
     public Optional<SalaDTO> actualizarSala(Long id, SalaDTO salaDTO) {
         return salaRepository.findById(id)
                 .map(sala -> {
@@ -70,6 +58,7 @@ public class SalaServiceImpl implements SalaService {
     }
 
     @Override
+    @Transactional
     public Optional<Void> eliminarSala(Long id) {
         return salaRepository.findById(id)
                 .map(sala -> {
@@ -78,11 +67,5 @@ public class SalaServiceImpl implements SalaService {
                 });
     }
 
-    private SalaDTO convertToDTO(Sala sala) {
-        return modelMapper.map(sala, SalaDTO.class);
-    }
 
-    private Sala convertToEntity(SalaDTO salaDTO) {
-        return modelMapper.map(salaDTO, Sala.class);
-    }
 }

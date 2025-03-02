@@ -24,6 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "Usuarios")
 public class Usuario  {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
@@ -42,6 +43,7 @@ public class Usuario  {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reserva> reservas;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id"),
@@ -64,5 +66,4 @@ public class Usuario  {
     }
 }
 
- }
 
