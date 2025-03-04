@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(ApiPathConstants.V1_ROUTE + "/usuarios")
+@RequestMapping(ApiPathConstants.V1_ROUTE + "/v1/usuarios")
 public interface UsuarioApi {
     @PostMapping
     ResponseEntity<UsuarioDTO> crearUsuario(@RequestBody UsuarioDTO usuarioDTO);

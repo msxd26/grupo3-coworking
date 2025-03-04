@@ -1,7 +1,6 @@
 package com.grupo3.coworkingreservas.service.impl;
 
-import com.grupo3.coworkingreservas.domain.entities.Usuario;
-import com.grupo3.coworkingreservas.repository.UsuarioRepository;
+import com.grupo3.coworkingreservas.domain.dto.UsuarioDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,28 +12,25 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @Service
 @RequiredArgsConstructor
 public class JpaUserDetailsService implements UserDetailsService {
-
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioServiceImpl usuarioServiceImpl;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(email);
+        UsuarioDTO usuarioDTO = usuarioServiceImpl.findByEmail(email);
 
-        if (optionalUsuario.isEmpty()) {
+        if (usuarioDTO == null) {
             throw new UsernameNotFoundException(String.format("Usuario %s no existe en el sistema", email));
         }
-        Usuario usuario = optionalUsuario.orElseThrow();
 
-        List<GrantedAuthority> authorities = usuario.getRoles().stream()
+        List<GrantedAuthority> authorities = usuarioDTO.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-        return new User(usuario.getEmail(), usuario.getPassword(), authorities);
+        return new User(usuarioDTO.getEmail(), usuarioDTO.getPassword(), authorities);
     }
 }

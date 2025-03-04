@@ -11,5 +11,7 @@ public interface UsuarioService {
 
     Boolean existsByEmail(String email);
 
+    UsuarioDTO findByEmail(String email);
+
 }
 

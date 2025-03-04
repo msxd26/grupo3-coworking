@@ -1,5 +1,6 @@
 package com.grupo3.coworkingreservas.domain.dto;
 
+import com.grupo3.coworkingreservas.domain.entities.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -35,5 +37,7 @@ public class UsuarioDTO {
     private String password;
 
     private boolean isAdmin;
+
+    private List<Role> roles;
 
 }

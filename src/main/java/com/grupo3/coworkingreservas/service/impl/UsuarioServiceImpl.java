@@ -19,11 +19,8 @@ import java.util.List;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final ModelMapper modelMapper;
-
     private final RoleRepository roleRepository;
 
 
@@ -64,11 +61,20 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.existsByEmail(email);
     }
 
-
+    @Override
+    public UsuarioDTO findByEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
+        if(usuario == null){
+            return null;
+        }
+        return convertToDTO(usuario);
+    }
 
 
     private UsuarioDTO convertToDTO(Usuario usuario) {
-        return modelMapper.map(usuario, UsuarioDTO.class);
+        UsuarioDTO usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
+        usuarioDTO.setRoles(new ArrayList<>(usuario.getRoles())); // Mapea las entidades Role directamente
+        return usuarioDTO;
     }
 
     private Usuario convertToUsuario(UsuarioDTO usuarioDTO) {
